@@ -39,6 +39,26 @@ promise_test(function() {
         createImageBitmap(imgData, 4294967400, 4294967400, 4294967400, 4294967400).then(resolve, reject);
     });
 }, "createImageBitmap does not crash or reject the promise when passing very large sx, sy, sw and sh");
+
+promise_test(function() {
+    var imgData = new ImageData(20, 20);
+    var imageBitmap = await createImageBitmap(imgData, 0, 0, 4294967295, 64);
+    var imageBitmapOptions = {imageOrientation:'none', premultiplyAlpha:'default',
+                              colorSpaceConversion:'none', resizeWidth:2122252543, resizeQuality:'high'};
+    return new Promise(function(resolve, reject) {
+        createImageBitmap(imageBitmap, imageBitmapOptions).then(resolve, reject);
+    });
+}, "createImageBitmap does not crash or reject the promise when passing bit imageBitmap scaled up in big width");
+
+promise_test(function() {
+    var imgData = new ImageData(20, 20);
+    var imageBitmap = await createImageBitmap(imgData, 0, 0, 4294967295, 64);
+    var imageBitmapOptions = {imageOrientation:'none', premultiplyAlpha:'default',
+                              colorSpaceConversion:'none', resizeHeight:2122252543, resizeQuality:'high'};
+    return new Promise(function(resolve, reject) {
+        createImageBitmap(imageBitmap, imageBitmapOptions).then(resolve, reject);
+    });
+}, "createImageBitmap does not crash or reject the promise when passing bit imageBitmap scaled up in big height");
 </script>
 </body>
 </html>
